@@ -25,15 +25,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'eslint-plugin-prettier',
-    '@typescript-eslint',
-    'jest',
-    'prettier',
-  ],
+  plugins: ['react', '@typescript-eslint', 'jest'],
   rules: {
+    'no-unused-vars': 'off',
     'no-use-before-define': 'off',
+    '@typescript-eslint/no-empty-interface': ['off'],
     '@typescript-eslint/no-use-before-define': ['error'],
   },
 }
