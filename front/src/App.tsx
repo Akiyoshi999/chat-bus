@@ -8,26 +8,47 @@ import {
   ListSubheader,
   makeStyles,
 } from '@material-ui/core'
-import red from '@material-ui/core/colors/red'
 import SendIcon from '@material-ui/icons/Send'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface Props {}
 
 const useStyles = makeStyles((theme) => ({
-  red: {
-    backgroundColor: red[500],
+  list: {
+    backgroundColor: theme.palette.grey[500],
   },
 }))
 
+interface Bus {
+  name: string
+  selected: boolean
+}
+
+interface Hitchhiker {
+  name: string
+}
+
 const App: React.FC<Props> = (props) => {
-  const [count, setCount] = useState<number>(0)
+  const [chatBus, setChatBus] = useState<Bus[]>([])
+  const [hitchhiker, setHitchhiker] = useState<Hitchhiker[]>([])
+
+  useEffect(() => {
+    // TODO websocketからデータをもらう
+    setChatBus([
+      { name: 'aaa', selected: false },
+      { name: 'bbb', selected: false },
+      { name: 'ccc', selected: false },
+    ])
+    setHitchhiker([{ name: 'user1' }, { name: 'user2' }, { name: 'user3' }])
+  }, [props])
+
   const classes = useStyles()
+
   return (
     <Container component="main" maxWidth="xl">
       <CssBaseline />
       <Grid container spacing={3}>
-        <Grid item xs={3} className={classes.red}>
+        <Grid item xs={3} className={classes.list}>
           <List
             component="nav"
             aria-labelledby="nested-list-subheader"
@@ -37,16 +58,32 @@ const App: React.FC<Props> = (props) => {
                 ChatBus
               </ListSubheader>
             }>
-            <ListItem button>
-              <ListItemText primary="room name" />
-            </ListItem>
+            {chatBus.map((bus, index) => (
+              <ListItem button key={index}>
+                <ListItemText primary={bus.name} />
+              </ListItem>
+            ))}
           </List>
         </Grid>
         <Grid item xs={6}>
           main
         </Grid>
-        <Grid item xs={3}>
-          users
+        <Grid item xs={3} className={classes.list}>
+          <List
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                <SendIcon />
+                hitchihikers
+              </ListSubheader>
+            }>
+            {hitchhiker.map((h, index) => (
+              <ListItem button key={index}>
+                <ListItemText primary={h.name} />
+              </ListItem>
+            ))}
+          </List>
         </Grid>
       </Grid>
     </Container>
